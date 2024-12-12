@@ -27,7 +27,7 @@ parts:
     build-snaps:
       - go/1.22/stable
     override-build: |
-      GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=agent,disable_pgv ./pilot/cmd/pilot-discovery
+      GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=vtprotobuf,disable_pgv ./pilot/cmd/pilot-discovery
       cp out/linux_amd64/pilot-discovery ${CRAFT_PART_INSTALL}/usr/local/bin
   ca-certs:
     plugin: nil
