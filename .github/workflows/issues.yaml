@@ -5,6 +5,6 @@ on: [issues]
 jobs:
   issues:
     name: Update Issues
-    uses: canonical/observability/.github/workflows/issues.yaml@main
+    uses: canonical/observability/.github/workflows/issues.yaml@v0
     with:
       component: istio-pilot
