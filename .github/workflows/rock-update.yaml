@@ -7,9 +7,9 @@ on:
 
 jobs:
   build:
-    uses: canonical/observability/.github/workflows/rock-update.yaml@v0
+    uses: canonical/observability/.github/workflows/rock-update.yaml@v1
     with:
-      rock-name: pilot
+      rock-name: istio-pilot-discovery
       source-repo: istio/istio
       check-go: true
     secrets: inherit

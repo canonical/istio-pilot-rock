@@ -3,7 +3,7 @@
 name: istio-pilot-discovery
 summary: Istio's pilot in a rock
 description: "Pilot: The core component of Istio's service mesh"
-version: "1.24.3"
+version: "1.26.1"
 base: ubuntu@24.04
 build-base: ubuntu@24.04
 services:
@@ -23,9 +23,9 @@ parts:
     plugin: go
     source: https://github.com/istio/istio
     source-type: git
-    source-tag: "1.24.3"
+    source-tag: "1.26.1"
     build-snaps:
-      - go/1.23/stable
+      - go/1.24/stable
     override-build: |
       GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=vtprotobuf,disable_pgv ./pilot/cmd/pilot-discovery
       mkdir -p ${CRAFT_PART_INSTALL}/usr/local/bin

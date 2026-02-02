@@ -1,6 +1,6 @@
 # Rock for [pilot](https://github.com/istio/istio/blob/master/pilot/docker/Dockerfile.pilot).
 
-name: pilot
+name: istio-pilot-discovery
 summary: Istio's pilot in a rock
 description: "Pilot: The core component of Istio's service mesh"
 version: "1.23.3"
@@ -19,7 +19,7 @@ platforms:
 
 parts:
   # [pilot](https://github.com/istio/istio/blob/master/pilot/docker/Dockerfile.pilot)
-  pilot-discovery:
+  istio-pilot-discovery:
     plugin: go
     source: https://github.com/istio/istio
     source-type: git
@@ -36,7 +36,7 @@ parts:
   deb-security-manifest:
     plugin: nil
     after:
-      - pilot-discovery
+      - istio-pilot-discovery
       - ca-certs
     override-prime: |
       set -x
