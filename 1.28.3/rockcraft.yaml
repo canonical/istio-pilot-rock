@@ -1,0 +1,41 @@
+# Rock for [pilot](https://github.com/istio/istio/blob/master/pilot/docker/Dockerfile.pilot).
+
+name: istio-pilot
+summary: Istio's pilot in a rock
+description: "Pilot: The core component of Istio's service mesh"
+version: "1.28.3"
+base: ubuntu@24.04
+build-base: ubuntu@24.04
+services:
+  pilot-discovery:
+    command: /usr/local/bin/pilot-discovery [ ]
+    override: replace
+    startup: enabled
+entrypoint-service: pilot-discovery
+platforms:
+  amd64:
+parts:
+  # [pilot](https://github.com/istio/istio/blob/master/pilot/docker/Dockerfile.pilot)
+  istio-pilot:
+    plugin: go
+    source: https://github.com/istio/istio
+    source-type: git
+    source-tag: "1.28.3"
+    build-snaps:
+      - go/1.24/stable
+    override-build: |
+      GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=vtprotobuf,disable_pgv ./pilot/cmd/pilot-discovery
+      mkdir -p ${CRAFT_PART_INSTALL}/usr/local/bin
+      cp out/linux_amd64/pilot-discovery ${CRAFT_PART_INSTALL}/usr/local/bin
+  ca-certs:
+    plugin: nil
+    overlay-packages: [ca-certificates]
+  deb-security-manifest:
+    plugin: nil
+    after:
+      - istio-pilot
+      - ca-certs
+    override-prime: |
+      set -x
+      mkdir -p $CRAFT_PRIME/usr/share/rocks/
+      (echo "# os-release" && cat /etc/os-release && echo "# dpkg-query" && dpkg-query --admindir=$CRAFT_PRIME/var/lib/dpkg/ -f '${db:Status-Abbrev},${binary:Package},${Version},${source:Package},${Source:Version}\n' -W) > $CRAFT_PRIME/usr/share/rocks/dpkg.query
