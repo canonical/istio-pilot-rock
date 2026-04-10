@@ -12,6 +12,7 @@ services:
     command: /usr/local/bin/pilot-discovery [ ]
     override: replace
     startup: enabled
+run-user: _daemon_
 entrypoint-service: pilot-discovery
 platforms:
   amd64:
