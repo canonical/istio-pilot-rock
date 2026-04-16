@@ -13,9 +13,6 @@ services:
     override: replace
     startup: enabled
 run-user: _daemon_
-environment:
-  PEBBLE: /run/pebble
-  PEBBLE_COPY_ONCE: /var/lib/pebble/default
 entrypoint-service: pilot-discovery
 platforms:
   amd64:
