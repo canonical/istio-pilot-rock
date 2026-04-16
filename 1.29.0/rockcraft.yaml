@@ -13,6 +13,9 @@ services:
     override: replace
     startup: enabled
 run-user: _daemon_
+environment:
+  PEBBLE: /run/pebble
+  PEBBLE_COPY_ONCE: /var/lib/pebble/default
 entrypoint-service: pilot-discovery
 platforms:
   amd64:
@@ -26,7 +29,7 @@ parts:
     build-snaps:
       - go/1.25/stable
     override-build: |
-      GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=vtprotobuf,disable_pgv ./pilot/cmd/pilot-discovery
+      VERSION=$CRAFT_PROJECT_VERSION GOOS=linux GOARCH=amd64 LDFLAGS='-extldflags -static -s -w' common/scripts/gobuild.sh ./out/linux_amd64/ -tags=vtprotobuf,disable_pgv ./pilot/cmd/pilot-discovery
       mkdir -p ${CRAFT_PART_INSTALL}/usr/local/bin
       cp out/linux_amd64/pilot-discovery ${CRAFT_PART_INSTALL}/usr/local/bin
   ca-certs:
